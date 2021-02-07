@@ -1,8 +1,9 @@
+
 import sys
 import socket
 from sys import argv
+import threading
 import signal
-
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -21,29 +22,34 @@ if (int(argv[1]) < 0) | (int(argv[1]) > 65535):
     sys.exit(1)
 
 con = []
-sock.bind(('127.0.0.1', int(argv[1])))
-sock.listen(5)
+sock.bind(('0.0.0.0', int(argv[1])))
+sock.listen(1)
+
+
+def connector(d, e):
+    global con
+    while True:
+        a = d.recv(1024)
+        for con in con:
+            con.send(bytes("accio\r\n"))
+
+        if not a:
+            con.remove(d)
+            d.close()
+            break
+def signal_handler(sig, frame):
+    sys.exit(1)
 
 
 try:
-
     while True:
-        print("Waiting Connection:", sock)
-        clientSock, address = sock.accept()
-        print("acceptedConnection", address)
-        con.append(address)
-        file = clientSock.recv(5)
-
-        if not file:
-            break
-        print(file)
-        try:
-            clientSock.send("accio\r\n")
-        except socket.error:
-            con.remove(sock)
-        clientSock.close()
-        sock.close()
+        x, v = sock.accept()
+        sock.send(bytes("accio\r\n"))
+        cThread = threading.Thread(target=connector, args=(x, v))
+        cThread.daemon = True
+        cThread.start()
+        con.append(x)
+        print(con)
 except socket.timeout:
     sys.stderr.write("ERROR: timeout")
     sys.exit(1)
-
