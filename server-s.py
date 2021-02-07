@@ -29,7 +29,7 @@ def connector(d, e):
     while True:
         a = d.recv(1024)
         for con in con:
-            con.send(bytes("accio\r\n"))
+            con.send(bytes(a))
         if not a:
             con.remove(d)
             d.close()
