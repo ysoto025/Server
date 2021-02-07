@@ -26,12 +26,12 @@ sock.listen(5)
 
 
 try:
-    print("Waiting Connection:", sock)
-    clientSock, address = sock.accept()
-    print("acceptedConnection", address)
-    con.append(address)
-    while True:
 
+    while True:
+        print("Waiting Connection:", sock)
+        clientSock, address = sock.accept()
+        print("acceptedConnection", address)
+        con.append(address)
         file = clientSock.recv(5)
 
         if not file:
