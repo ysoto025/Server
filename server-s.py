@@ -30,7 +30,7 @@ try:
         print("acceptedConnection", address)
         while True:
 
-            file = clientSock.recv(2048)
+            file = clientSock.recv(2048).decode("utf-8")
             print(file)
 
             if not file:
