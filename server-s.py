@@ -1,6 +1,7 @@
 import sys
 import socket
 from sys import argv
+import signal
 
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -23,20 +24,23 @@ con = []
 sock.bind(('127.0.0.1', int(argv[1])))
 sock.listen(5)
 
+
 try:
+    print("Waiting Connection:", sock)
+    clientSock, address = sock.accept()
+    print("acceptedConnection", address)
+    con.append(address)
     while True:
-        print("New Connection")
-        clientSock, address = sock.accept()
-        print("acceptedConnection", address)
-        while True:
 
-            file = clientSock.recv(2048).decode("utf-8")
-            print(file)
+        file = clientSock.recv(5)
 
-            if not file:
-                break
-            clientSock.send(file)
-
+        if not file:
+            break
+        print(file)
+        try:
+            clientSock.send("accio\r\n")
+        except socket.error:
+            con.remove(sock)
         clientSock.close()
         sock.close()
 except socket.timeout:
