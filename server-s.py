@@ -32,15 +32,15 @@ def connector(d, e):
     word = 'accio\r\n'
     while True:
         d.send(bytes(word.encode()))
-        a = d.recv(1024)
-        data = a
-        print(a.decode("utf-8"))
+        a = d.recv(1024).decode("utf-8")
+
+        print(len(a))
 
         if not a:
             con.remove(d)
             d.close()
             break
-        print(len(data))
+
 
 
 def signal_handler(sig, frame):
