@@ -1,4 +1,3 @@
-
 import sys
 import socket
 from sys import argv
@@ -37,6 +36,8 @@ def connector(d, e):
             con.remove(d)
             d.close()
             break
+
+
 def signal_handler(sig, frame):
     sys.exit(1)
 
