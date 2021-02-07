@@ -23,29 +23,15 @@ con = []
 sock.bind(('0.0.0.0', int(argv[1])))
 sock.listen(1)
 
-
-def connector(d, e):
-    global con
-    while True:
-        a = d.recv(1024)
-        for con in con:
-            con.send(bytes(a))
-        if not a:
-            con.remove(d)
-            d.close()
-            break
-
-
 try:
     while True:
-        x, v = sock.accept()
-        sock.send("accio\r\n")
-        cThread = threading.Thread(target=connector, args=(x, v))
-        cThread.daemon = True
-        cThread.start()
+        clientSock, address = sock.accept()
+        file = clientSock.recv(1024).decode("utf-8")
+        print(file)
 
-        con.append(x)
-        print(con)
+        clientSock.close()
+        sock.close()
 except socket.timeout:
     sys.stderr.write("ERROR: timeout")
     sys.exit(1)
+
