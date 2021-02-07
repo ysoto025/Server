@@ -32,9 +32,9 @@ def connector(d, e):
     word = 'accio\r\n'
     while True:
         d.send(bytes(word.encode()))
-        a = d.recv(1024)
+        a = d.recv(1024).decode()
 
-        print(a)
+        print(len(a))
 
         if not a:
             con.remove(d)
