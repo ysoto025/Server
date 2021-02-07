@@ -42,7 +42,6 @@ def connector(d, e):
             break
 
 
-
 def signal_handler(sig, frame):
     sys.stderr.write("ERROR: SignalInterrupted")
     sys.exit(0)
