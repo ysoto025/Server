@@ -27,12 +27,11 @@ sock.listen(1)
 
 def connector(d, e):
     global con
+    word = 'accio\r\n'
     while True:
+        d.send(bytes(word.encode()))
         a = d.recv(1024)
         print(a.decode("utf-8"))
-        for con in con:
-            word = 'accio\r\n'
-            con.send(bytes(word.encode()))
 
         if not a:
             con.remove(d)
