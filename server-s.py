@@ -31,7 +31,7 @@ def connector(d, e):
     while True:
         d.send(bytes(word.encode()))
         a = d.recv(1024)
-        print(a.decode("utf-8"))
+        print(len(a))
 
         if not a:
             con.remove(d)
