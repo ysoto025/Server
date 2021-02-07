@@ -1,7 +1,7 @@
 import sys
 import socket
 from sys import argv
-import threading
+
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -20,14 +20,22 @@ if (int(argv[1]) < 0) | (int(argv[1]) > 65535):
     sys.exit(1)
 
 con = []
-sock.bind(('0.0.0.0', int(argv[1])))
-sock.listen(1)
+sock.bind(('127.0.0.1', int(argv[1])))
+sock.listen(5)
 
 try:
     while True:
+        print("New Connection")
         clientSock, address = sock.accept()
-        file = clientSock.recv(1024).decode("utf-8")
-        print(file)
+        print("acceptedConnection", address)
+        while True:
+
+            file = clientSock.recv(2048)
+            print(file)
+
+            if not file:
+                break
+            clientSock.send(file)
 
         clientSock.close()
         sock.close()
