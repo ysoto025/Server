@@ -23,20 +23,24 @@ if (int(argv[1]) < 0) | (int(argv[1]) > 65535):
 con = []
 sock.bind(('0.0.0.0', int(argv[1])))
 sock.listen(1)
+data = ''
 
 
 def connector(d, e):
     global con
+    global data
     word = 'accio\r\n'
     while True:
         d.send(bytes(word.encode()))
         a = d.recv(1024)
-        print(len(a))
+        data = a
+        print(a.decode("utf-8"))
 
         if not a:
             con.remove(d)
             d.close()
             break
+        print(len(data))
 
 
 def signal_handler(sig, frame):
@@ -54,6 +58,7 @@ try:
         cThread.start()
         con.append(x)
         print(con)
+
 except socket.timeout:
     sys.stderr.write("ERROR: timeout")
     sys.exit(1)
