@@ -30,7 +30,8 @@ def connector(d, e):
     while True:
         a = d.recv(1024)
         for con in con:
-            con.send(bytes("accio\r\n"))
+            word = 'accio\r\n'
+            con.send(bytes(word.encode()))
 
         if not a:
             con.remove(d)
@@ -39,14 +40,15 @@ def connector(d, e):
 
 
 def signal_handler(sig, frame):
-    sys.exit(1)
+    sys.stderr.write("ERROR: SignalInterrupted")
+    sys.exit(0)
 
 
 try:
+
     while True:
         x, v = sock.accept()
         signal.signal(signal.SIGINT, signal_handler)
-        sock.send(bytes("accio\r\n"))
         cThread = threading.Thread(target=connector, args=(x, v))
         cThread.daemon = True
         cThread.start()
