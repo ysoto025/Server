@@ -29,15 +29,17 @@ def connector(d, e):
     while True:
         a = d.recv(1024)
         for con in con:
-            con.send("accio\r\n")
+            con.send(bytes("accio\r\n"))
         if not a:
+            con.remove(d)
+            d.close()
             break
 
 
 try:
     while True:
         x, v = sock.accept()
-        # sock.send("accio\r\n")
+        sock.send("accio\r\n")
         cThread = threading.Thread(target=connector, args=(x, v))
         cThread.daemon = True
         cThread.start()
