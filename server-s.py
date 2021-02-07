@@ -29,6 +29,7 @@ def connector(d, e):
     global con
     while True:
         a = d.recv(1024)
+        print(a.decode("utf-8"))
         for con in con:
             word = 'accio\r\n'
             con.send(bytes(word.encode()))
