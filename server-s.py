@@ -45,6 +45,7 @@ def signal_handler(sig, frame):
 try:
     while True:
         x, v = sock.accept()
+        signal.signal(signal.SIGINT, signal_handler)
         sock.send(bytes("accio\r\n"))
         cThread = threading.Thread(target=connector, args=(x, v))
         cThread.daemon = True
