@@ -26,6 +26,7 @@ sock.listen(1)
 data = ''
 var = 0
 
+
 def connector(d, e):
     global con
     global data
@@ -36,9 +37,9 @@ def connector(d, e):
         d.send(bytes(word.encode()))
         a = d.recv(1).decode("utf-8")
         var = var + 1
-        print(var)
-        if not a:
 
+        if not a:
+            print(var)
             con.remove(d)
             d.close()
             break
