@@ -30,12 +30,13 @@ def connector(d, e):
     global con
     global data
     word = 'accio\r\n'
+    var = 0
     while True:
         d.send(bytes(word.encode()))
-        a = d.recv(1024).decode("utf-8")
-   
+        a = d.recv(1).decode("utf-8")
+        var = var + 1
         if not a:
-            print(len(a))
+            print(var)
             con.remove(d)
             d.close()
             break
