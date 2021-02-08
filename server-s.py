@@ -3,7 +3,7 @@ import socket
 from sys import argv
 import threading
 import signal
-import os
+
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 sock.settimeout(10.0)
@@ -34,7 +34,7 @@ def connector(d, e):
         d.send(bytes(word.encode()))
         a = d.recv(1024).decode()
 
-        print(os.stat(a))
+        print(len(a))
 
         if not a:
             con.remove(d)
