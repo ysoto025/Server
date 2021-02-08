@@ -24,20 +24,19 @@ con = []
 sock.bind(('0.0.0.0', int(argv[1])))
 sock.listen(1)
 data = ''
-var = 0
+
 
 def connector(d, e):
     global con
     global data
     word = 'accio\r\n'
-    global var
-    var = 0
+
     while True:
         d.send(bytes(word.encode()))
-        a = d.recv(1).decode("utf-8")
-        var = var + 1
-        #print(var)
+        a = d.recv(1)
+
         if not a:
+            print(len(a.decode("utf-8")))
             con.remove(d)
             d.close()
             break
@@ -57,7 +56,7 @@ try:
         cThread.daemon = True
         cThread.start()
         con.append(x)
-        print(var)
+
 
 except socket.timeout:
     sys.stderr.write("ERROR: timeout")
