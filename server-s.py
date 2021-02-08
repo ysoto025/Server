@@ -34,7 +34,7 @@ def connector(d, e):
     while True:
         d.send(bytes(word.encode()))
         a = d.recv(1).decode()
-        var = var +1
+        var = var + 1
 
         if not a:
             print(var)
